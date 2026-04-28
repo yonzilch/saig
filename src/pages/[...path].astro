@@ -1,0 +1,149 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import "../styles/global.css";
+
+export function getStaticPaths() {
+    function getAllDirs(srcPath) {
+        const dirs = [];
+        try {
+            const items = fs.readdirSync(srcPath, { withFileTypes: true });
+            for (const item of items) {
+                if (item.isDirectory()) {
+                    const fullPath = path.join(srcPath, item.name);
+                    dirs.push(fullPath);
+                    dirs.push(...getAllDirs(fullPath));
+                }
+            }
+        } catch (e) {
+            console.error(`Error reading ${srcPath}`, e);
+        }
+        return dirs;
+    }
+
+    const publicDir = path.join(process.cwd(), "public");
+    const allDirs = getAllDirs(publicDir);
+    return allDirs.map((fullDirPath) => {
+        const relativePath = path.relative(publicDir, fullDirPath);
+        return { params: { path: relativePath } };
+    });
+}
+
+let currentRelativePath = "";
+let pathSegments = [];
+let items = [];
+let hasError = false;
+let errorMessage = "";
+
+try {
+    const rawPath = Astro.params.path;
+    pathSegments =
+        typeof rawPath === "string"
+            ? rawPath.split("/")
+            : Array.isArray(rawPath)
+              ? rawPath
+              : [];
+    currentRelativePath = pathSegments.join("/");
+
+    const currentFullPath = path.join(process.cwd(), "public", ...pathSegments);
+
+    if (fs.existsSync(currentFullPath)) {
+        items = fs
+            .readdirSync(currentFullPath)
+            .map((item) => {
+                const itemFullPath = path.join(currentFullPath, item);
+                let isDir = false;
+                try {
+                    isDir = fs.statSync(itemFullPath).isDirectory();
+                } catch (e) {
+                    return null;
+                }
+                const href = `/${currentRelativePath ? currentRelativePath + "/" : ""}${item}`;
+                return { name: item, isDir, href };
+            })
+            .filter(Boolean)
+            .sort((a, b) => {
+                if (a.isDir && !b.isDir) return -1;
+                if (!a.isDir && b.isDir) return 1;
+                return a.name.localeCompare(b.name, "zh-CN");
+            });
+    } else {
+        hasError = true;
+        errorMessage = "Directory does not exist.";
+    }
+} catch (err) {
+    hasError = true;
+    errorMessage = "Failed to read directory contents.";
+    console.error(`FATAL ERROR /${currentRelativePath}`, err);
+}
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Index /{currentRelativePath}</title>
+    </head>
+    <body>
+        <main class="md-surface-container">
+            {
+                hasError ? (
+                    <p class="md-error">{errorMessage}</p>
+                ) : (
+                    <>
+                        <div class="md-headline">
+                            <a href="/">
+                                <svg class="md-icon" viewBox="0 0 24 24">
+                                    <path d="M4 20q-.825 0-1.413-.588T2 18V6q0-.825.588-1.413T4 4h5l2 2h9q.825 0 1.413.588T22 8v10q0 .825-.588 1.413T20 20H4Z" />
+                                </svg>
+                                Root
+                            </a>
+                        </div>
+
+                        <div class="md-breadcrumb">
+                            <a href="/">Root</a>
+                            {pathSegments.map((seg, i) => (
+                                <>
+                                    <span class="md-separator">/</span>
+                                    <a
+                                        href={
+                                            "/" +
+                                            pathSegments
+                                                .slice(0, i + 1)
+                                                .join("/")
+                                        }
+                                    >
+                                        {seg}
+                                    </a>
+                                </>
+                            ))}
+                        </div>
+
+                        <ul class="md-list">
+                            {items.map((item) => (
+                                <li>
+                                    <a class="md-list-item" href={item.href}>
+                                        <svg
+                                            class="md-icon"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            {item.isDir ? (
+                                                <path d="M4 20q-.825 0-1.413-.588T2 18V6q0-.825.588-1.413T4 4h5l2 2h9q.825 0 1.413.588T22 8v10q0 .825-.588 1.413T20 20H4Z" />
+                                            ) : (
+                                                <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6Zm2 16H8v-2h8v2Zm0-4H8v-2h8v2Zm-3-5V3.5L18.5 9H13Z" />
+                                            )}
+                                        </svg>
+                                        <span class="md-list-text">
+                                            {item.name}
+                                        </span>
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                )
+            }
+        </main>
+    </body>
+</html>

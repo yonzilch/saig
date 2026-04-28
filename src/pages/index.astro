@@ -1,0 +1,64 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import "../styles/global.css";
+
+const publicDir = path.join(process.cwd(), "public");
+const items = fs
+    .readdirSync(publicDir)
+    .map((item) => {
+        const fullPath = path.join(publicDir, item);
+        let isDir = false;
+        try {
+            isDir = fs.statSync(fullPath).isDirectory();
+        } catch (e) {}
+        return { name: item, isDir, href: `/${item}` };
+    })
+    .sort((a, b) => {
+        if (a.isDir && !b.isDir) return -1;
+        if (!a.isDir && b.isDir) return 1;
+        return a.name.localeCompare(b.name, "zh-CN");
+    });
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Static Assets</title>
+    </head>
+    <body>
+        <main class="md-surface-container">
+            <div class="md-headline">
+                <a href="/">
+                    <!-- Material Icon: Folder Root -->
+                    <svg class="md-icon" viewBox="0 0 24 24">
+                        <path
+                            d="M4 20q-.825 0-1.413-.588T2 18V6q0-.825.588-1.413T4 4h5l2 2h9q.825 0 1.413.588T22 8v10q0 .825-.588 1.413T20 20H4Z"
+                        ></path>
+                    </svg>
+                    Root
+                </a>
+            </div>
+            <ul class="md-list">
+                {
+                    items.map((item) => (
+                        <li>
+                            <a class="md-list-item" href={item.href}>
+                                <svg class="md-icon" viewBox="0 0 24 24">
+                                    {item.isDir ? (
+                                        <path d="M4 20q-.825 0-1.413-.588T2 18V6q0-.825.588-1.413T4 4h5l2 2h9q.825 0 1.413.588T22 8v10q0 .825-.588 1.413T20 20H4Z" />
+                                    ) : (
+                                        <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6Zm2 16H8v-2h8v2Zm0-4H8v-2h8v2Zm-3-5V3.5L18.5 9H13Z" />
+                                    )}
+                                </svg>
+                                <span class="md-list-text">{item.name}</span>
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </main>
+    </body>
+</html>
