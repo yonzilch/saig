@@ -1,0 +1,28 @@
+---
+interface Props {
+  items: Array<{
+    name: string;
+    isDir: boolean;
+    href: string;
+  }>;
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="md-list">
+  {items.map((item) => (
+    <li>
+      <a class="md-list-item" href={item.href}>
+        <svg class="md-icon" viewBox="0 0 24 24">
+          {item.isDir ? (
+            <path d="M4 20q-.825 0-1.413-.588T2 18V6q0-.825.588-1.413T4 4h5l2 2h9q.825 0 1.413.588T22 8v10q0 .825-.588 1.413T20 20H4Z" />
+          ) : (
+            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6Zm2 16H8v-2h8v2Zm0-4H8v-2h8v2Zm-3-5V3.5L18.5 9H13Z" />
+          )}
+        </svg>
+        <span class="md-list-text">{item.name}</span>
+      </a>
+    </li>
+  ))}
+</ul>

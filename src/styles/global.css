@@ -39,6 +39,8 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+/* ── README renderer ──────────────────────────────────────────────────────── */
+
 .md-surface-container {
     max-width: 800px;
     margin: 40px auto;
@@ -142,4 +144,163 @@ body {
 .md-error {
     padding: 24px;
     color: #f2b8b5;
+}
+
+.md-readme-container {
+    margin: 16px 0;
+    padding: 16px;
+    background-color: var(--md-sys-color-surface-container-high);
+    border-radius: 12px;
+    border: 1px solid var(--md-sys-color-outline);
+}
+
+.md-readme-summary {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--md-sys-color-primary);
+    cursor: pointer;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    list-style: none;
+}
+
+.md-readme-summary::-webkit-details-marker {
+    display: none;
+}
+
+.md-readme-content {
+    margin-top: 12px;
+    color: var(--md-sys-color-on-surface);
+    line-height: 1.6;
+}
+
+.md-readme-content h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 1rem 0 0.5rem 0;
+    color: var(--md-sys-color-on-surface);
+}
+
+.md-readme-content h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 1rem 0 0.5rem 0;
+    color: var(--md-sys-color-on-surface);
+}
+
+.md-readme-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 1rem 0 0.5rem 0;
+    color: var(--md-sys-color-on-surface);
+}
+
+.md-readme-content h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 1rem 0 0.5rem 0;
+    color: var(--md-sys-color-on-surface);
+}
+
+.md-readme-content p {
+    margin: 0.5rem 0;
+}
+
+.md-readme-content a {
+    color: var(--md-sys-color-primary);
+    text-decoration: none;
+}
+
+.md-readme-content a:hover {
+    text-decoration: underline;
+}
+
+.md-readme-content strong {
+    font-weight: 700;
+}
+
+.md-readme-content em {
+    font-style: italic;
+}
+
+.md-readme-content pre {
+    background-color: var(--md-sys-color-surface-container-highest);
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+}
+
+.md-readme-content code {
+    font-family: "Courier New", monospace;
+    background-color: var(--md-sys-color-surface-container-highest);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.md-readme-content pre code {
+    padding: 0;
+    background: none;
+}
+
+.md-readme-content ul,
+.md-readme-content ol {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.md-readme-content li {
+    margin: 0.25rem 0;
+}
+
+.md-readme-content blockquote {
+    border-left: 4px solid var(--md-sys-color-outline);
+    padding-left: 16px;
+    color: var(--md-sys-color-on-surface-variant);
+    margin: 1rem 0;
+}
+
+.md-readme-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.md-readme-content th,
+.md-readme-content td {
+    border: 1px solid var(--md-sys-color-outline);
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.md-readme-content del {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.md-readme-content blockquote {
+    border-left: 4px solid var(--md-sys-color-outline);
+    padding-left: 16px;
+    color: var(--md-sys-color-on-surface-variant);
+    margin: 1rem 0;
+}
+
+.md-readme-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.md-readme-content th,
+.md-readme-content td {
+    border: 1px solid var(--md-sys-color-outline);
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.md-readme-content del {
+    text-decoration: line-through;
+    opacity: 0.7;
 }

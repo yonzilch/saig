@@ -1,0 +1,56 @@
+---
+interface Props {
+    readmeHtml: string | null;
+}
+
+const { readmeHtml } = Astro.props;
+---
+
+{
+    readmeHtml && (
+        <details class="md-readme-container" open>
+            <summary class="md-readme-summary">
+                README
+                <svg
+                    class="md-icon md-expand-arrow"
+                    viewBox="0 0 24 24"
+                    style="width:28px;height:28px;margin-left:auto;"
+                >
+                    <path d="M7 10l5 5 5-5z" />
+                </svg>
+            </summary>
+            <div class="md-readme-content" set:html={readmeHtml} />
+        </details>
+    )
+}
+
+<style>
+    .md-readme-container {
+        margin: 8px 0;
+        padding: 8px;
+    }
+
+    .md-readme-summary {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        list-style: none;
+        padding: 4px 0;
+    }
+
+    .md-readme-summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .md-readme-content {
+        margin-top: 8px;
+    }
+
+    .md-expand-arrow {
+        transition: transform 0.3s ease;
+    }
+
+    details[open] .md-expand-arrow {
+        transform: rotate(180deg);
+    }
+</style>

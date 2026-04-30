@@ -11,7 +11,7 @@
 
 ---
 
-**[English](README.md) | 中文**
+**[![README](https://img.shields.io/badge/README-white)](https://github.com/yonzilch/saig) | [![English](https://img.shields.io/badge/English-blue)](https://github.com/yonzilch/saig/blob/main/README.md) | [![中文](https://img.shields.io/badge/Chinese-red)](https://github.com/yonzilch/saig/blob/main/README.zh-CN.md)**
 
 一个轻量级、极速的静态站点，基于 [Astro](https://astro.build/) 构建，能够在**构建时**自动为你的本地文件生成美观、样式化的目录列表（类似于 Nginx 的 `autoindex` 功能）。
 
@@ -27,6 +27,7 @@
 - **文件类型指示器：** 清晰的 Material Design 图标，用于区分目录和文件。
 - **Material Design 3 主题：** 采用现代深色主题，保持统一的设计语言。
 - **静态且快速：** 预渲染页面确保闪电般的加载速度，可部署在任何地方。
+- **README 渲染：** 自动检测并渲染目录中的 README 文件，且能对其手动折叠。
 
 
 ## 🛠️ 技术栈
