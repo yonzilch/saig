@@ -12,6 +12,8 @@
 
 ---
 
+**English | [中文](README.zh-CN.md)**
+
 A lightweight, blazingly fast static site built with [Astro](https://astro.build/) that automatically generates beautiful, styled directory listings (similar to Nginx `autoindex`) for your local files.
 
 Instead of relying on server-side modules to display directory structures, this project scans your asset folders at **build time** and generates static `index.html` files for every single directory and subdirectory.
